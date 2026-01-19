@@ -1,30 +1,1009 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
   <meta charset="UTF-8">
-  <title>MASAMIHE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Seguridad básica -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+  <title>IVYCO - Belleza sin esfuerzo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      box-sizing: border-box;
     }
-    img {
-      max-width: 100%;
-      height: auto;
+    
+    * {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+    
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    /* Smooth animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
+    }
+    
+    .animate-fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .product-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #E6CBA8 0%, #D8B7A6 100%);
+      color: #0F0F12;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(230, 203, 168, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(230, 203, 168, 0.5);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #E6CBA8;
+      color: #E6CBA8;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(230, 203, 168, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .text-champagne {
+      color: #E6CBA8;
+    }
+    
+    .text-nude {
+      color: #D8B7A6;
+    }
+    
+    .bg-carbon {
+      background-color: #1A1A1F;
+    }
+    
+    .bg-dark-nude {
+      background-color: #2A2523;
+    }
+    
+    .shadow-luxury {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .gradient-champagne {
+      background: linear-gradient(135deg, #E6CBA8 0%, #D8B7A6 100%);
+    }
+    
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* WhatsApp button pulse */
+    @keyframes pulse-champagne {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(230, 203, 168, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(230, 203, 168, 0);
+      }
+    }
+    
+    .pulse-champagne {
+      animation: pulse-champagne 2s infinite;
+    }
+    
+    /* Logo shimmer effect */
+    @keyframes shimmer-gold {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
+    }
+    
+    .logo-shimmer {
+      background: linear-gradient(
+        90deg,
+        #E6CBA8 0%,
+        #F5E6D3 25%,
+        #FFD700 50%,
+        #F5E6D3 75%,
+        #E6CBA8 100%
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer-gold 3s linear infinite;
+    }
+    
+    /* Sparkles around logo */
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+      }
+    }
+    
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      padding: 5px 15px;
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(45deg, #FFD700, #E6CBA8);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      pointer-events: none;
+    }
+    
+    .sparkle:nth-child(1) {
+      top: -8px;
+      left: -10px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    .sparkle:nth-child(2) {
+      top: -5px;
+      right: -8px;
+      animation: sparkle 2.3s ease-in-out infinite 0.3s;
+    }
+    
+    .sparkle:nth-child(3) {
+      bottom: -8px;
+      left: 10px;
+      animation: sparkle 2.5s ease-in-out infinite 0.6s;
+    }
+    
+    .sparkle:nth-child(4) {
+      bottom: -6px;
+      right: 15px;
+      animation: sparkle 2.7s ease-in-out infinite 0.9s;
+    }
+    
+    .sparkle:nth-child(5) {
+      top: 50%;
+      left: -15px;
+      animation: sparkle 2.2s ease-in-out infinite 1.2s;
+    }
+    
+    .sparkle:nth-child(6) {
+      top: 50%;
+      right: -12px;
+      animation: sparkle 2.4s ease-in-out infinite 1.5s;
+    }
+    
+    /* Eye animations */
+    .eye-container {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .eye-container:hover {
+      transform: scale(1.05);
+    }
+    
+    .eye-iris {
+      transition: all 0.4s ease;
+    }
+    
+    .eye-container:hover .eye-iris {
+      fill: #E6CBA8;
+    }
+    
+    .eyelid {
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .eye-container:hover .eyelid-top {
+      transform: translateY(40px);
+    }
+    
+    .eye-container:hover .eyelid-bottom {
+      transform: translateY(-40px);
+    }
+    
+    /* Animated stars background */
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+    
+    @keyframes float-star {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+      }
+    }
+    
+    .star {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #FFD700, #E6CBA8);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      pointer-events: none;
+    }
+    
+    .star:nth-child(1) {
+      top: 15%;
+      left: 10%;
+      animation: twinkle 3s ease-in-out infinite, float-star 4s ease-in-out infinite;
+    }
+    
+    .star:nth-child(2) {
+      top: 25%;
+      left: 85%;
+      animation: twinkle 2.5s ease-in-out infinite 0.5s, float-star 5s ease-in-out infinite 0.5s;
+    }
+    
+    .star:nth-child(3) {
+      top: 70%;
+      left: 15%;
+      animation: twinkle 3.5s ease-in-out infinite 1s, float-star 4.5s ease-in-out infinite 1s;
+    }
+    
+    .star:nth-child(4) {
+      top: 80%;
+      left: 80%;
+      animation: twinkle 2.8s ease-in-out infinite 1.5s, float-star 5.5s ease-in-out infinite 1.5s;
+    }
+    
+    .star:nth-child(5) {
+      top: 40%;
+      left: 5%;
+      animation: twinkle 3.2s ease-in-out infinite 2s, float-star 4.8s ease-in-out infinite 2s;
+    }
+    
+    .star:nth-child(6) {
+      top: 50%;
+      left: 90%;
+      animation: twinkle 2.7s ease-in-out infinite 2.5s, float-star 5.2s ease-in-out infinite 2.5s;
+    }
+    
+    .star:nth-child(7) {
+      top: 10%;
+      left: 50%;
+      animation: twinkle 3.3s ease-in-out infinite 0.8s, float-star 4.2s ease-in-out infinite 0.8s;
+    }
+    
+    .star:nth-child(8) {
+      top: 90%;
+      left: 45%;
+      animation: twinkle 2.9s ease-in-out infinite 1.8s, float-star 5.8s ease-in-out infinite 1.8s;
     }
   </style>
-</head>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full overflow-auto scrollbar-hide" style="background-color: #0F0F12; color: #F2F2F2;">
+  <div id="app" class="min-h-full w-full"><!-- Navigation -->
+   <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15, 15, 18, 0.9); border-bottom: 1px solid rgba(230, 203, 168, 0.1);">
+    <div class="max-w-7xl mx-auto px-6 py-5">
+     <div class="flex items-center justify-between">
+      <div class="logo-container"><span class="sparkle"></span> <span class="sparkle"></span> <span class="sparkle"></span> <span class="sparkle"></span> <span class="sparkle"></span> <span class="sparkle"></span> <button onclick="scrollToTop()" id="nav-brand" class="font-serif text-2xl tracking-wider logo-shimmer cursor-pointer">IVYCO</button>
+      </div>
+      <div class="flex items-center gap-6"><a href="#productos" class="text-sm tracking-wider hover:text-champagne transition-colors" style="color: #B6B0A9;">Productos</a> <a href="#vip" class="text-sm tracking-wider hover:text-champagne transition-colors" style="color: #B6B0A9;">Acceso VIP</a> <button onclick="toggleCart()" class="relative p-2 hover:bg-white/5 rounded-full transition-colors">
+        <svg class="w-6 h-6" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg><span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center hidden gradient-champagne" style="color: #0F0F12; font-weight: 500;">0</span> </button>
+      </div>
+     </div>
+    </div>
+   </nav><!-- Hero Section -->
+   <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"><!-- Elegant gradient background -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse at top, rgba(230, 203, 168, 0.08) 0%, transparent 50%), radial-gradient(ellipse at bottom right, rgba(216, 183, 166, 0.05) 0%, transparent 50%);"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+     <div class="animate-fade-in">
+      <p class="text-sm tracking-widest uppercase mb-4" style="color: #D8B7A6;">Belleza Profesional</p>
+      <h2 id="hero-title" class="font-serif text-5xl md:text-7xl mb-6 leading-tight" style="color: #E6CBA8;">Belleza sin<br>
+       esfuerzo</h2>
+      <p id="hero-subtitle" class="text-xl mb-8 leading-relaxed" style="color: #B6B0A9;">Kits profesionales de pestañas DIY.<br>
+       Resultados de salón, desde casa.</p>
+      <div class="flex flex-wrap gap-4"><button onclick="scrollToProducts()" class="btn-primary px-8 py-4 rounded-full text-base font-medium tracking-wide" id="cta-primary"> Comprar ahora </button> <button onclick="scrollToVIP()" class="btn-secondary px-8 py-4 rounded-full text-base font-medium tracking-wide"> Acceso VIP </button>
+      </div>
+     </div>
+     <div class="animate-fade-in animate-float" style="animation-delay: 0.2s;">
+      <div class="relative">
+       <div class="absolute inset-0 gradient-champagne opacity-20 blur-3xl rounded-full"></div>
+       <div class="relative aspect-square rounded-3xl shadow-luxury flex items-center justify-center" style="background: linear-gradient(135deg, #2A2523 0%, #1A1A1F 100%);"><!-- Animated stars in background -->
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="eye-container">
+         <svg width="200" height="200" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><!-- Eye outline --> <ellipse cx="100" cy="100" rx="80" ry="50" fill="none" stroke="#E6CBA8" stroke-width="3" /> <!-- White of eye --> <ellipse cx="100" cy="100" rx="75" ry="45" fill="#F2F2F2" /> <!-- Iris --> <circle cx="100" cy="100" r="25" class="eye-iris" fill="#8B4513" /> <!-- Pupil --> <circle cx="100" cy="100" r="12" fill="#0F0F12" /> <!-- Light reflection --> <circle cx="108" cy="92" r="5" fill="white" opacity="0.8" /> <!-- Eyelashes top --> <g class="eyelashes">
+           <line x1="40" y1="55" x2="35" y2="40" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="60" y1="50" x2="58" y2="35" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="80" y1="48" x2="80" y2="32" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="100" y1="47" x2="100" y2="30" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="120" y1="48" x2="120" y2="32" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="140" y1="50" x2="142" y2="35" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+           <line x1="160" y1="55" x2="165" y2="40" stroke="#E6CBA8" stroke-width="2" stroke-linecap="round" />
+          </g> <!-- Eyelids (animated on hover) --> <ellipse cx="100" cy="100" rx="75" ry="45" class="eyelid eyelid-top" fill="#2A2523" style="clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);" opacity="0" /> <ellipse cx="100" cy="100" rx="75" ry="45" class="eyelid eyelid-bottom" fill="#2A2523" style="clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);" opacity="0" />
+         </svg>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+     <svg class="w-6 h-6 animate-bounce" style="color: #E6CBA8; opacity: 0.6;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+     </svg>
+    </div>
+   </section><!-- Products Section -->
+   <section id="productos" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16 animate-fade-in">
+      <h3 class="font-serif text-4xl md:text-5xl mb-4" style="color: #E6CBA8;">Nuestros Kits</h3>
+      <p class="text-lg" style="color: #B6B0A9;">Diseñados para resultados profesionales</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8" id="products-grid"><!-- Products will be inserted here -->
+     </div><!-- Coming Soon Section -->
+     <div class="mt-20 text-center">
+      <div class="inline-block px-6 py-2 rounded-full mb-6" style="background: rgba(230, 203, 168, 0.1); border: 1px solid rgba(230, 203, 168, 0.2);"><span class="text-sm tracking-widest uppercase" style="color: #E6CBA8;">Próximamente</span>
+      </div>
+      <h4 class="font-serif text-3xl mb-8" style="color: #F2F2F2;">Colección PRO-TECH</h4>
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+       <div class="p-8 rounded-2xl bg-carbon shadow-luxury opacity-70">
+        <div class="text-6xl mb-4">
+         💆
+        </div>
+        <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Planchas Profesionales</h5>
+        <p class="text-sm" style="color: #B6B0A9;">Tecnología de salón</p>
+       </div>
+       <div class="p-8 rounded-2xl bg-carbon shadow-luxury opacity-70">
+        <div class="text-6xl mb-4">
+         💇
+        </div>
+        <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Ferros de Rizado</h5>
+        <p class="text-sm" style="color: #B6B0A9;">Rizos perfectos</p>
+       </div>
+       <div class="p-8 rounded-2xl bg-carbon shadow-luxury opacity-70">
+        <div class="text-6xl mb-4">
+         ✨
+        </div>
+        <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Accesorios Premium</h5>
+        <p class="text-sm" style="color: #B6B0A9;">Completa tu ritual</p>
+       </div>
+      </div><button onclick="scrollToVIP()" class="mt-10 btn-secondary px-10 py-4 rounded-full text-base font-medium tracking-wide"> Únete al acceso VIP para ser la primera en saberlo </button>
+     </div>
+    </div>
+   </section><!-- Benefits Section -->
+   <section class="py-24 px-6 bg-dark-nude">
+    <div class="max-w-6xl mx-auto">
+     <div class="grid md:grid-cols-4 gap-8 text-center">
+      <div class="animate-fade-in">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(230, 203, 168, 0.15);">
+        <svg class="w-8 h-8" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7" />
+        </svg>
+       </div>
+       <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Profesional</h5>
+       <p class="text-sm" style="color: #B6B0A9;">Resultados de salón en casa</p>
+      </div>
+      <div class="animate-fade-in" style="animation-delay: 0.1s;">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(230, 203, 168, 0.15);">
+        <svg class="w-8 h-8" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+       </div>
+       <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Fácil de usar</h5>
+       <p class="text-sm" style="color: #B6B0A9;">Diseñado para principiantes</p>
+      </div>
+      <div class="animate-fade-in" style="animation-delay: 0.2s;">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(230, 203, 168, 0.15);">
+        <svg class="w-8 h-8" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+       </div>
+       <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Seguro</h5>
+       <p class="text-sm" style="color: #B6B0A9;">Calidad garantizada</p>
+      </div>
+      <div class="animate-fade-in" style="animation-delay: 0.3s;">
+       <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(230, 203, 168, 0.15);">
+        <svg class="w-8 h-8" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+       </div>
+       <h5 class="font-serif text-xl mb-2" style="color: #E6CBA8;">Diseño Premium</h5>
+       <p class="text-sm" style="color: #B6B0A9;">Elegancia en cada detalle</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Emotional Section -->
+   <section class="py-24 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+     <h4 id="emotional-title" class="font-serif text-4xl md:text-5xl mb-6" style="color: #E6CBA8;">Tu ritual de belleza</h4>
+     <p id="emotional-text" class="text-xl leading-relaxed" style="color: #B6B0A9;">Porque mereces verte impecable sin complicaciones. Cada kit está diseñado pensando en ti: en tu tiempo, en tu estilo, en esa confianza que sientes cuando todo está en su lugar. No es solo belleza, es autocuidado con propósito.</p>
+    </div>
+   </section><!-- VIP Section -->
+   <section id="vip" class="py-24 px-6 bg-carbon">
+    <div class="max-w-3xl mx-auto">
+     <div class="text-center mb-12">
+      <div class="inline-block px-6 py-2 rounded-full mb-6 gradient-champagne"><span class="text-sm tracking-widest uppercase font-medium" style="color: #0F0F12;">✨ Exclusivo</span>
+      </div>
+      <h4 id="vip-title" class="font-serif text-4xl md:text-5xl mb-4" style="color: #E6CBA8;">Acceso VIP</h4>
+      <p id="vip-description" class="text-lg mb-8" style="color: #B6B0A9;">Sé la primera en conocer nuestros lanzamientos, obtén acceso a preventas y precios especiales. Únete a nuestra comunidad VIP vía WhatsApp.</p>
+     </div>
+     <form id="vip-form" onsubmit="submitVIPForm(event)" class="space-y-6">
+      <div><label for="vip-name" class="block text-sm mb-2 tracking-wide" style="color: #B6B0A9;">Nombre</label> <input type="text" id="vip-name" required class="w-full px-6 py-4 rounded-xl border focus:outline-none transition-all" style="background: rgba(26, 26, 31, 0.5); border-color: rgba(230, 203, 168, 0.2); color: #F2F2F2;" placeholder="Tu nombre">
+      </div>
+      <div><label for="vip-phone" class="block text-sm mb-2 tracking-wide" style="color: #B6B0A9;">WhatsApp</label> <input type="tel" id="vip-phone" required class="w-full px-6 py-4 rounded-xl border focus:outline-none transition-all" style="background: rgba(26, 26, 31, 0.5); border-color: rgba(230, 203, 168, 0.2); color: #F2F2F2;" placeholder="+52 55 1234 5678">
+      </div>
+      <div><label for="vip-email" class="block text-sm mb-2 tracking-wide" style="color: #B6B0A9;">Email (opcional)</label> <input type="email" id="vip-email" class="w-full px-6 py-4 rounded-xl border focus:outline-none transition-all" style="background: rgba(26, 26, 31, 0.5); border-color: rgba(230, 203, 168, 0.2); color: #F2F2F2;" placeholder="tu@email.com">
+      </div><button type="submit" id="vip-submit-btn" class="w-full btn-primary px-8 py-5 rounded-xl text-base font-medium tracking-wide"> Unirme al acceso VIP </button>
+     </form>
+     <div class="mt-8 text-center">
+      <p class="text-sm" style="color: #B6B0A9;">✨ Beneficios exclusivos: lanzamientos anticipados, descuentos VIP y preventas limitadas</p>
+     </div>
+    </div>
+   </section><!-- Final CTA -->
+   <section class="py-24 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+     <h4 class="font-serif text-4xl md:text-5xl mb-6" style="color: #E6CBA8;">Lista para brillar</h4>
+     <p class="text-xl mb-10" style="color: #B6B0A9;">Eleva tu rutina de belleza con nuestros kits profesionales</p><button onclick="scrollToProducts()" class="btn-primary px-12 py-5 rounded-full text-lg font-medium tracking-wide"> Explorar productos </button> <!-- Social Media Section -->
+     <div class="mt-16 pt-16" style="border-top: 1px solid rgba(230, 203, 168, 0.1);">
+      <p class="text-sm tracking-widest uppercase mb-6" style="color: #D8B7A6;">Síguenos en:</p>
+      <div class="flex items-center justify-center gap-6"><a id="social-facebook" href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(230, 203, 168, 0.1); border: 1px solid rgba(230, 203, 168, 0.2);">
+        <svg class="w-6 h-6" style="color: #E6CBA8;" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg></a> <a id="social-instagram" href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(230, 203, 168, 0.1); border: 1px solid rgba(230, 203, 168, 0.2);">
+        <svg class="w-6 h-6" style="color: #E6CBA8;" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg></a> <a id="social-tiktok" href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(230, 203, 168, 0.1); border: 1px solid rgba(230, 203, 168, 0.2);">
+        <svg class="w-6 h-6" style="color: #E6CBA8;" fill="currentColor" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+        </svg></a>
+      </div>
+     </div>
+    </div>
+   </section><!-- Cart Sidebar -->
+   <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full max-w-md z-50 transform translate-x-full transition-transform duration-300 shadow-luxury" style="background-color: #1A1A1F;">
+    <div class="h-full flex flex-col">
+     <div class="p-6 flex items-center justify-between" style="border-bottom: 1px solid rgba(230, 203, 168, 0.1);">
+      <h4 class="font-serif text-2xl" style="color: #E6CBA8;">Tu Carrito</h4><button onclick="toggleCart()" class="p-2 hover:bg-white/5 rounded-full transition-colors">
+       <svg class="w-6 h-6" style="color: #F2F2F2;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <div id="cart-items" class="flex-1 overflow-auto p-6 space-y-4"><!-- Cart items here -->
+     </div>
+     <div class="p-6 space-y-4" style="border-top: 1px solid rgba(230, 203, 168, 0.1);">
+      <div class="flex justify-between text-lg"><span style="color: #B6B0A9;">Subtotal</span> <span id="cart-total" class="font-serif" style="color: #E6CBA8;">$0.00</span>
+      </div><button onclick="initiateWhatsAppOrder()" class="w-full btn-primary px-6 py-4 rounded-xl text-base font-medium tracking-wide"> Finalizar compra por WhatsApp </button>
+      <p class="text-xs text-center" style="color: #B6B0A9;">Te contactaremos para confirmar tu pedido</p>
+     </div>
+    </div>
+   </div><!-- Product Modal -->
+   <div id="product-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 backdrop-blur-sm" style="background-color: rgba(15, 15, 18, 0.9);" onclick="closeProductModal()"></div>
+    <div class="absolute inset-4 md:inset-10 rounded-3xl overflow-hidden flex flex-col md:flex-row animate-fade-in shadow-luxury" style="background-color: #1A1A1F;"><button onclick="closeProductModal()" class="absolute top-6 right-6 z-10 p-3 rounded-full transition-colors" style="background: rgba(230, 203, 168, 0.1);">
+      <svg class="w-6 h-6" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+     <div id="modal-image" class="w-full md:w-1/2 h-64 md:h-auto flex items-center justify-center bg-dark-nude"><!-- Product image here -->
+     </div>
+     <div class="flex-1 p-8 md:p-12 overflow-auto">
+      <p id="modal-category" class="text-xs tracking-widest uppercase mb-3" style="color: #D8B7A6;">Categoría</p>
+      <h4 id="modal-title" class="font-serif text-4xl mb-4" style="color: #E6CBA8;"></h4>
+      <p id="modal-price" class="text-3xl font-serif mb-6" style="color: #F2F2F2;"></p>
+      <p id="modal-description" class="text-lg mb-8 leading-relaxed" style="color: #B6B0A9;"></p>
+      <div class="space-y-6">
+       <div>
+        <h5 class="text-sm tracking-widest uppercase mb-3" style="color: #B6B0A9;">Incluye:</h5>
+        <ul id="modal-includes" class="space-y-2"><!-- Includes list here -->
+        </ul>
+       </div>
+       <div class="pt-4"><button id="add-to-cart-modal-btn" onclick="addToCartFromModal()" class="w-full btn-primary px-8 py-5 rounded-xl text-base font-medium tracking-wide"> Añadir al carrito </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- WhatsApp Floating Button --> <a href="#" id="whatsapp-float" onclick="openWhatsApp(event)" class="fixed bottom-8 right-8 w-16 h-16 rounded-full flex items-center justify-center shadow-luxury pulse-champagne z-40 gradient-champagne">
+    <svg class="w-8 h-8" style="color: #0F0F12;" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg></a> <!-- Toast Notification -->
+   <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-4 rounded-full transform translate-y-20 opacity-0 transition-all duration-300 z-50 shadow-luxury gradient-champagne"><span id="toast-message" class="font-medium" style="color: #0F0F12;"></span>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      store_name: 'IVYCO',
+      hero_title: 'Belleza sin\nesfuerzo',
+      hero_subtitle: 'Kits profesionales de pestañas DIY.\nResultados de salón, desde casa.',
+      cta_primary: 'Comprar ahora',
+      emotional_title: 'Tu ritual de belleza',
+      emotional_text: 'Porque mereces verte impecable sin complicaciones. Cada kit está diseñado pensando en ti: en tu tiempo, en tu estilo, en esa confianza que sientes cuando todo está en su lugar. No es solo belleza, es autocuidado con propósito.',
+      vip_title: 'Acceso VIP',
+      vip_description: 'Sé la primera en conocer nuestros lanzamientos, obtén acceso a preventas y precios especiales. Únete a nuestra comunidad VIP vía WhatsApp.',
+      whatsapp_number: '+5215512345678',
+      facebook_url: 'https://facebook.com',
+      instagram_url: 'https://instagram.com',
+      tiktok_url: 'https://tiktok.com'
+    };
 
-<body>
-  <img src="diseno-masamihe.png" alt="MASAMIHE">
-</body>
+    // Product catalog - Lash Kits
+    const products = [
+      {
+        id: 'kit-basic',
+        name: 'Kit Esencial',
+        price: 899,
+        emoji: '👁️',
+        description: 'Todo lo que necesitas para comenzar tu ritual de pestañas. Perfecto para principiantes que buscan resultados profesionales.',
+        includes: [
+          'Set de pestañas naturales',
+          'Adhesivo hipoalergénico',
+          'Aplicador de precisión',
+          'Removedor suave',
+          'Guía paso a paso'
+        ]
+      },
+      {
+        id: 'kit-pro',
+        name: 'Kit Professional',
+        price: 1499,
+        emoji: '✨',
+        description: 'Nuestra colección más completa. Incluye múltiples estilos y herramientas profesionales para looks versátiles.',
+        includes: [
+          '3 sets de pestañas (natural, volumen, dramático)',
+          'Adhesivo profesional de larga duración',
+          'Kit de aplicación completo',
+          'Removedor y limpiador',
+          'Estuche de almacenamiento premium',
+          'Masterclass en video'
+        ],
+        featured: true
+      },
+      {
+        id: 'kit-luxury',
+        name: 'Kit Luxury Edition',
+        price: 2299,
+        emoji: '💎',
+        description: 'La experiencia definitiva en pestañas DIY. Edición limitada con materiales premium y acabados de lujo.',
+        includes: [
+          '5 sets de pestañas premium',
+          'Adhesivo premium waterproof',
+          'Set profesional de herramientas',
+          'Sérum de crecimiento',
+          'Removedor y acondicionador',
+          'Estuche de lujo personalizado',
+          'Acceso VIP a lanzamientos',
+          'Consultoría personalizada'
+        ]
+      }
+    ];
+
+    let cartItems = [];
+    let vipLeads = [];
+    let currentProduct = null;
+    let isLoading = false;
+
+    // Data handler for SDK
+    const dataHandler = {
+      onDataChanged(data) {
+        cartItems = data.filter(item => item.type === 'cart');
+        vipLeads = data.filter(item => item.type === 'vip');
+        updateCartUI();
+        updateCartBadge();
+      }
+    };
+
+    // Initialize SDKs
+    async function initApp() {
+      // Initialize Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            applyConfig(config);
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['store_name', config.store_name || defaultConfig.store_name],
+            ['hero_title', config.hero_title || defaultConfig.hero_title],
+            ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+            ['cta_primary', config.cta_primary || defaultConfig.cta_primary],
+            ['emotional_title', config.emotional_title || defaultConfig.emotional_title],
+            ['emotional_text', config.emotional_text || defaultConfig.emotional_text],
+            ['vip_title', config.vip_title || defaultConfig.vip_title],
+            ['vip_description', config.vip_description || defaultConfig.vip_description],
+            ['whatsapp_number', config.whatsapp_number || defaultConfig.whatsapp_number],
+            ['facebook_url', config.facebook_url || defaultConfig.facebook_url],
+            ['instagram_url', config.instagram_url || defaultConfig.instagram_url],
+            ['tiktok_url', config.tiktok_url || defaultConfig.tiktok_url]
+          ])
+        });
+      }
+
+      // Initialize Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize data SDK');
+        }
+      }
+
+      // Render initial products
+      renderProducts();
+      applyConfig(defaultConfig);
+    }
+
+    function applyConfig(config) {
+      // Update brand name (preserve sparkle effects)
+      const brandElement = document.getElementById('nav-brand');
+      brandElement.textContent = config.store_name || defaultConfig.store_name;
+      
+      // Update hero section
+      const heroTitle = (config.hero_title || defaultConfig.hero_title).replace(/\\n/g, '\n');
+      document.getElementById('hero-title').innerHTML = heroTitle.split('\n').join('<br/>');
+      
+      const heroSubtitle = (config.hero_subtitle || defaultConfig.hero_subtitle).replace(/\\n/g, '\n');
+      document.getElementById('hero-subtitle').innerHTML = heroSubtitle.split('\n').join('<br/>');
+      
+      document.getElementById('cta-primary').textContent = config.cta_primary || defaultConfig.cta_primary;
+      
+      // Update emotional section
+      document.getElementById('emotional-title').textContent = config.emotional_title || defaultConfig.emotional_title;
+      document.getElementById('emotional-text').textContent = config.emotional_text || defaultConfig.emotional_text;
+      
+      // Update VIP section
+      document.getElementById('vip-title').textContent = config.vip_title || defaultConfig.vip_title;
+      document.getElementById('vip-description').textContent = config.vip_description || defaultConfig.vip_description;
+      
+      // Update social media links
+      document.getElementById('social-facebook').href = config.facebook_url || defaultConfig.facebook_url;
+      document.getElementById('social-instagram').href = config.instagram_url || defaultConfig.instagram_url;
+      document.getElementById('social-tiktok').href = config.tiktok_url || defaultConfig.tiktok_url;
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      
+      grid.innerHTML = products.map((product, index) => `
+        <div class="product-card cursor-pointer animate-fade-in" style="animation-delay: ${index * 0.1}s;" onclick="openProductModal('${product.id}')">
+          <div class="relative rounded-2xl overflow-hidden shadow-luxury bg-carbon">
+            ${product.featured ? '<div class="absolute top-4 left-4 px-4 py-2 rounded-full gradient-champagne z-10"><span class="text-xs font-medium tracking-wider" style="color: #0F0F12;">MÁS VENDIDO</span></div>' : ''}
+            <div class="aspect-square flex items-center justify-center text-9xl bg-dark-nude">
+              ${product.emoji}
+            </div>
+          </div>
+          <div class="mt-6">
+            <h4 class="font-serif text-2xl mb-2" style="color: #F2F2F2;">${product.name}</h4>
+            <p class="text-sm mb-4" style="color: #B6B0A9;">${product.description.substring(0, 80)}...</p>
+            <div class="flex items-center justify-between">
+              <span class="font-serif text-2xl" style="color: #E6CBA8;">$${product.price.toLocaleString()}</span>
+              <button onclick="event.stopPropagation(); quickAddToCart('${product.id}')" class="btn-secondary px-6 py-2 rounded-full text-sm">
+                Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openProductModal(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      currentProduct = product;
+      
+      document.getElementById('modal-image').innerHTML = `
+        <div class="text-9xl">${product.emoji}</div>
+      `;
+      
+      document.getElementById('modal-category').textContent = 'KIT DE PESTAÑAS';
+      document.getElementById('modal-title').textContent = product.name;
+      document.getElementById('modal-price').textContent = `$${product.price.toLocaleString()} MXN`;
+      document.getElementById('modal-description').textContent = product.description;
+      
+      const includesList = document.getElementById('modal-includes');
+      includesList.innerHTML = product.includes.map(item => `
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span style="color: #B6B0A9;">${item}</span>
+        </li>
+      `).join('');
+      
+      document.getElementById('product-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      currentProduct = null;
+    }
+
+    async function addToCartFromModal() {
+      if (!currentProduct || isLoading) return;
+      
+      await addProductToCart(currentProduct);
+      closeProductModal();
+    }
+
+    async function quickAddToCart(productId) {
+      if (isLoading) return;
+      
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      
+      await addProductToCart(product);
+    }
+
+    async function addProductToCart(product) {
+      if (cartItems.length >= 999) {
+        showToast('Has alcanzado el límite máximo de artículos');
+        return;
+      }
+      
+      isLoading = true;
+      const btn = document.getElementById('add-to-cart-modal-btn');
+      if (btn) btn.classList.add('opacity-50');
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create({
+          type: 'cart',
+          product_id: product.id,
+          product_name: product.name,
+          product_price: product.price,
+          quantity: 1,
+          added_at: new Date().toISOString()
+        });
+        
+        if (result.isOk) {
+          showToast(`${product.name} añadido al carrito ✨`);
+        } else {
+          showToast('Error al añadir al carrito');
+        }
+      }
+      
+      isLoading = false;
+      if (btn) btn.classList.remove('opacity-50');
+    }
+
+    async function removeFromCart(item) {
+      if (isLoading) return;
+      isLoading = true;
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.delete(item);
+        if (result.isOk) {
+          showToast('Artículo eliminado');
+        }
+      }
+      
+      isLoading = false;
+    }
+
+    function toggleCart() {
+      const sidebar = document.getElementById('cart-sidebar');
+      sidebar.classList.toggle('translate-x-full');
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items');
+      
+      if (cartItems.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16">
+            <svg class="w-20 h-20 mx-auto mb-4 opacity-30" style="color: #E6CBA8;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <p style="color: #B6B0A9;">Tu carrito está vacío</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = cartItems.map(item => {
+          const product = products.find(p => p.id === item.product_id);
+          return `
+            <div class="flex gap-4 p-4 rounded-xl" style="background: rgba(42, 37, 35, 0.5);">
+              <div class="w-20 h-20 rounded-xl flex items-center justify-center text-4xl bg-dark-nude flex-shrink-0">
+                ${product?.emoji || '👁️'}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h5 class="font-serif text-lg mb-1" style="color: #F2F2F2;">${item.product_name}</h5>
+                <p class="text-lg" style="color: #E6CBA8;">$${item.product_price.toLocaleString()}</p>
+              </div>
+              <button onclick="removeFromCart(cartItems.find(c => c.__backendId === '${item.__backendId}'))" class="p-2 hover:bg-white/5 rounded-full transition-colors self-start">
+                <svg class="w-5 h-5" style="color: #B6B0A9;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      const total = cartItems.reduce((sum, item) => sum + item.product_price, 0);
+      document.getElementById('cart-total').textContent = `$${total.toLocaleString()}`;
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-count');
+      
+      if (cartItems.length > 0) {
+        badge.textContent = cartItems.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    async function submitVIPForm(event) {
+      event.preventDefault();
+      
+      if (isLoading) return;
+      
+      const name = document.getElementById('vip-name').value.trim();
+      const phone = document.getElementById('vip-phone').value.trim();
+      const email = document.getElementById('vip-email').value.trim();
+      
+      if (vipLeads.length >= 999) {
+        showToast('Has alcanzado el límite máximo');
+        return;
+      }
+      
+      isLoading = true;
+      const btn = document.getElementById('vip-submit-btn');
+      btn.classList.add('opacity-50');
+      btn.textContent = 'Enviando...';
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create({
+          type: 'vip',
+          vip_name: name,
+          vip_phone: phone,
+          vip_email: email || '',
+          added_at: new Date().toISOString()
+        });
+        
+        if (result.isOk) {
+          showToast('¡Bienvenida al club VIP! 💎');
+          document.getElementById('vip-form').reset();
+          
+          // Optional: Open WhatsApp with welcome message
+          const config = window.elementSdk?.config || defaultConfig;
+          const whatsappNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/\D/g, '');
+          const message = encodeURIComponent(`Hola, me acabo de unir al acceso VIP. Mi nombre es ${name} 💎`);
+          setTimeout(() => {
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
+          }, 1000);
+        } else {
+          showToast('Error al enviar. Intenta de nuevo.');
+        }
+      }
+      
+      isLoading = false;
+      btn.classList.remove('opacity-50');
+      btn.textContent = 'Unirme al acceso VIP';
+    }
+
+    function initiateWhatsAppOrder() {
+      if (cartItems.length === 0) {
+        showToast('Tu carrito está vacío');
+        return;
+      }
+      
+      const config = window.elementSdk?.config || defaultConfig;
+      const whatsappNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/\D/g, '');
+      
+      let message = '¡Hola! Me gustaría hacer un pedido:\n\n';
+      
+      cartItems.forEach((item, index) => {
+        message += `${index + 1}. ${item.product_name} - $${item.product_price.toLocaleString()}\n`;
+      });
+      
+      const total = cartItems.reduce((sum, item) => sum + item.product_price, 0);
+      message += `\n*Total: $${total.toLocaleString()} MXN*\n\n`;
+      message += 'Espero tu confirmación 💎';
+      
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+      
+      showToast('Redirigiendo a WhatsApp...');
+    }
+
+    function openWhatsApp(event) {
+      event.preventDefault();
+      
+      const config = window.elementSdk?.config || defaultConfig;
+      const whatsappNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/\D/g, '');
+      const message = encodeURIComponent('Hola, me gustaría saber más sobre los productos de IVYCO      ');
+      
+      window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
+    }
+
+    function scrollToProducts() {
+      document.getElementById('productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function scrollToVIP() {
+      document.getElementById('vip').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Initialize on load
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9beabdc66695f35f',t:'MTc2ODUzNjM5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
