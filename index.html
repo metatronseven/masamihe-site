@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masamihe - Reflexiones Diarias</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+    }
+    
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+    .animate-slide-in { animation: slide-in 0.8s ease-out forwards; }
+    .animate-ticker { animation: ticker 30s linear infinite; }
+    .animate-gradient { animation: gradient-shift 8s ease infinite; background-size: 200% 200%; }
+    
+    .news-ticker:hover .animate-ticker { animation-play-state: paused; }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .quote-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    .news-item {
+      transition: all 0.3s ease;
+    }
+    
+    .news-item:hover {
+      background: rgba(139, 92, 246, 0.3);
+      transform: scale(1.02);
+    }
+    
+    .category-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .category-btn.active {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: white;
+      transform: scale(1.05);
+    }
+    
+    .search-glow:focus {
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      border-radius: 10px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app" class="min-h-full bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 animate-gradient"><!-- Floating Background Elements -->
+   <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+    <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-float" style="animation-delay: -1.5s;"></div><!-- Sparkles -->
+    <div class="sparkle" style="top: 15%; left: 20%; animation-delay: 0s;"></div>
+    <div class="sparkle" style="top: 25%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="sparkle" style="top: 60%; left: 15%; animation-delay: 1s;"></div>
+    <div class="sparkle" style="top: 70%; left: 85%; animation-delay: 1.5s;"></div>
+    <div class="sparkle" style="top: 40%; left: 50%; animation-delay: 0.8s;"></div>
+   </div><!-- Header -->
+   <header class="relative z-10 px-6 py-8">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6"><!-- Logo -->
+      <div class="flex items-center gap-4">
+       <div class="relative">
+        <svg class="w-16 h-16 animate-pulse-glow rounded-full" viewbox="0 0 64 64" fill="none"><defs>
+          <lineargradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+           <stop offset="0%" style="stop-color:#8b5cf6" />
+           <stop offset="100%" style="stop-color:#ec4899" />
+          </lineargradient>
+         </defs> <circle cx="32" cy="32" r="30" fill="url(#logoGrad)" opacity="0.15" /> <!-- Estrella de 9 puntas --> <path d="M32 8 L34.5 22 L44 14 L39 26 L52 26 L42 34 L50 44 L38 40 L38 54 L32 44 L26 54 L26 40 L14 44 L22 34 L12 26 L25 26 L20 14 L29.5 22 Z" fill="url(#logoGrad)" opacity="0.8" /> <path d="M32 14 L33.5 24 L40 18 L37 27 L46 28 L39 33 L44 40 L36 37 L35 46 L32 38 L29 46 L28 37 L20 40 L25 33 L18 28 L27 27 L24 18 L30.5 24 Z" fill="url(#logoGrad)" /> <circle cx="32" cy="32" r="6" fill="white" opacity="0.95" />
+        </svg>
+       </div>
+       <div>
+        <h1 id="site-title" class="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">Masamihe</h1>
+        <p id="welcome-message" class="text-purple-200/70 text-sm md:text-base">Tu espacio de reflexión diaria</p>
+       </div>
+      </div><!-- Search Bar -->
+      <div class="relative w-full md:w-96"><input type="text" id="search-input" placeholder="Buscar reflexiones, noticias, artículos..." class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-purple-200/50 focus:outline-none search-glow transition-all duration-300"> <button id="search-btn" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl hover:scale-110 transition-transform">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg></button>
+      </div>
+     </div>
+    </div>
+   </header><!-- Daily Quote Hero Section -->
+   <section class="relative z-10 px-6 py-12">
+    <div class="max-w-4xl mx-auto">
+     <div id="quote-container" class="quote-card rounded-3xl p-8 md:p-12 animate-slide-in">
+      <div class="flex items-start gap-4 mb-6"><span class="text-6xl md:text-8xl font-display text-purple-300/30 leading-none">"</span>
+       <div class="flex-1">
+        <p id="daily-quote" class="font-display text-2xl md:text-4xl text-white leading-relaxed mb-6">Cada día es una nueva oportunidad para convertirte en la mejor versión de ti mismo.</p>
+        <div class="flex items-center justify-between flex-wrap gap-4"><span id="quote-author" class="text-purple-200/70 text-lg">— Para el buscador incansable</span> <button id="new-quote-btn" class="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all hover:scale-105">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg> Nueva Reflexión </button>
+        </div>
+       </div>
+      </div><!-- Mood Selector -->
+      <div class="mt-8 pt-8 border-t border-white/10">
+       <p class="text-purple-200/70 mb-4 text-sm uppercase tracking-wider">¿Cómo te sientes hoy?</p>
+       <div class="flex flex-wrap gap-3" id="mood-selector"><button data-mood="motivated" class="mood-btn px-4 py-2 rounded-full bg-green-500/20 hover:bg-green-500/40 text-green-300 transition-all hover:scale-105 border border-green-500/30"> 💪 Motivado </button> <button data-mood="peaceful" class="mood-btn px-4 py-2 rounded-full bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 transition-all hover:scale-105 border border-blue-500/30">    En paz </button> <button data-mood="creative" class="mood-btn px-4 py-2 rounded-full bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-300 transition-all hover:scale-105 border border-yellow-500/30"> 🎨 Creativo </button> <button data-mood="reflective" class="mood-btn px-4 py-2 rounded-full bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 transition-all hover:scale-105 border border-purple-500/30"> 🔮 Reflexivo </button> <button data-mood="adventurous" class="mood-btn px-4 py-2 rounded-full bg-orange-500/20 hover:bg-orange-500/40 text-orange-300 transition-all hover:scale-105 border border-orange-500/30"> 🚀 Aventurero </button> <button data-mood="grateful" class="mood-btn px-4 py-2 rounded-full bg-pink-500/20 hover:bg-pink-500/40 text-pink-300 transition-all hover:scale-105 border border-pink-500/30"> 🙏 Agradecido </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- News Ticker -->
+   <section class="relative z-10 px-6 py-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex items-center gap-4 mb-4">
+      <div class="flex items-center gap-2 px-4 py-2 bg-red-500 rounded-lg animate-pulse"><span class="w-2 h-2 bg-white rounded-full"></span> <span class="text-white font-semibold text-sm uppercase">En Vivo</span>
+      </div>
+      <h2 class="text-white font-semibold">Noticias de Tecnología</h2>
+     </div>
+     <div class="news-ticker glass-card rounded-2xl overflow-hidden">
+      <div class="flex animate-ticker whitespace-nowrap py-4 px-4" id="news-ticker-content"><!-- News items will be duplicated for seamless loop -->
+      </div>
+     </div>
+    </div>
+   </section><!-- Categories Filter -->
+   <section class="relative z-10 px-6 py-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex flex-wrap gap-3 justify-center" id="category-filters"><button data-category="all" class="category-btn active px-6 py-3 rounded-full bg-white/10 text-white font-medium"> 🌟 Todos </button> <button data-category="ai" class="category-btn px-6 py-3 rounded-full bg-white/10 text-white/70 font-medium hover:text-white hover:bg-white/20"> 🤖 Inteligencia Artificial </button> <button data-category="space" class="category-btn px-6 py-3 rounded-full bg-white/10 text-white/70 font-medium hover:text-white hover:bg-white/20"> 🚀 Espacio </button> <button data-category="science" class="category-btn px-6 py-3 rounded-full bg-white/10 text-white/70 font-medium hover:text-white hover:bg-white/20"> 🔬 Ciencia </button> <button data-category="innovation" class="category-btn px-6 py-3 rounded-full bg-white/10 text-white/70 font-medium hover:text-white hover:bg-white/20"> 💡 Innovación </button> <button data-category="health" class="category-btn px-6 py-3 rounded-full bg-white/10 text-white/70 font-medium hover:text-white hover:bg-white/20"> 🏥 Salud Tech </button>
+     </div>
+    </div>
+   </section><!-- Main Content Grid -->
+   <section class="relative z-10 px-6 py-8">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><!-- News Articles -->
+      <div class="lg:col-span-2">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-2xl text-white">📰 Artículos Destacados</h2><span id="articles-count" class="text-purple-200/50 text-sm">Mostrando todos</span>
+       </div>
+       <div id="articles-container" class="space-y-6"><!-- Articles will be rendered here -->
+       </div>
+      </div><!-- Sidebar -->
+      <div class="space-y-8"><!-- Saved Items -->
+       <div class="glass-card rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-4">
+         <h3 class="font-display text-xl text-white">💾 Guardados</h3><span id="saved-count" class="text-purple-200/50 text-sm">0 items</span>
+        </div>
+        <div id="saved-container" class="space-y-3 max-h-64 overflow-y-auto">
+         <p class="text-purple-200/50 text-sm text-center py-4">No tienes items guardados aún</p>
+        </div>
+       </div><!-- Inspirational Image -->
+       <div class="glass-card rounded-2xl overflow-hidden">
+        <div class="relative">
+         <svg viewbox="0 0 400 300" class="w-full h-48"><defs>
+           <lineargradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e1b4b" />
+            <stop offset="50%" style="stop-color:#4c1d95" />
+            <stop offset="100%" style="stop-color:#7c3aed" />
+           </lineargradient>
+           <lineargradient id="mountainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#6d28d9" />
+            <stop offset="100%" style="stop-color:#4c1d95" />
+           </lineargradient>
+           <radialgradient id="sunGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#fbbf24" />
+            <stop offset="50%" style="stop-color:#f97316" />
+            <stop offset="100%" style="stop-color:#ec4899" />
+           </radialgradient>
+          </defs> <!-- Sky --> <rect width="400" height="300" fill="url(#skyGrad)" /> <!-- Stars --> <circle cx="50" cy="40" r="1.5" fill="white" opacity="0.8" /> <circle cx="120" cy="60" r="1" fill="white" opacity="0.6" /> <circle cx="200" cy="30" r="1.5" fill="white" opacity="0.9" /> <circle cx="280" cy="50" r="1" fill="white" opacity="0.5" /> <circle cx="350" cy="35" r="1.5" fill="white" opacity="0.7" /> <circle cx="80" cy="80" r="1" fill="white" opacity="0.4" /> <circle cx="320" cy="70" r="1" fill="white" opacity="0.6" /> <!-- Sun/Moon --> <circle cx="320" cy="80" r="35" fill="url(#sunGrad)" opacity="0.9" /> <!-- Mountains --> <path d="M0 300 L100 180 L200 220 L300 160 L400 200 L400 300 Z" fill="url(#mountainGrad)" opacity="0.8" /> <path d="M0 300 L150 200 L250 240 L400 180 L400 300 Z" fill="#4c1d95" opacity="0.9" /> <!-- Foreground --> <path d="M0 300 L100 260 L200 270 L300 250 L400 280 L400 300 Z" fill="#1e1b4b" /> <!-- Person Silhouette --> <g transform="translate(180, 230)">
+           <ellipse cx="12" cy="5" rx="6" ry="5" fill="#1e1b4b" />
+           <rect x="8" y="10" width="8" height="15" fill="#1e1b4b" />
+           <rect x="4" y="25" width="4" height="15" fill="#1e1b4b" />
+           <rect x="16" y="25" width="4" height="15" fill="#1e1b4b" />
+          </g>
+         </svg>
+         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+         <div class="absolute bottom-4 left-4 right-4">
+          <p class="text-white text-sm font-medium">El horizonte siempre espera a quienes se atreven a soñar</p>
+         </div>
+        </div>
+       </div><!-- Quick Stats -->
+       <div class="glass-card rounded-2xl p-6">
+        <h3 class="font-display text-xl text-white mb-4">📊 Tu Actividad</h3>
+        <div class="space-y-4">
+         <div class="flex items-center justify-between"><span class="text-purple-200/70">Reflexiones vistas</span> <span id="quotes-viewed" class="text-white font-semibold">1</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-purple-200/70">Artículos leídos</span> <span id="articles-read" class="text-white font-semibold">0</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-purple-200/70">Items guardados</span> <span id="items-saved-stat" class="text-white font-semibold">0</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="relative z-10 px-6 py-8 mt-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto text-center">
+     <p id="footer-text" class="text-purple-200/50">© 2025 Masamihe - Tu espacio de reflexión y conocimiento</p>
+     <p class="text-purple-200/30 text-sm mt-2">Hecho con 💜 para mentes curiosas</p>
+    </div>
+   </footer>
+  </div><!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+   <div class="glass-card px-6 py-4 rounded-2xl flex items-center gap-3"><span id="toast-icon">✨</span> <span id="toast-message" class="text-white">Mensaje</span>
+   </div>
+  </div>
+  <script>
+    // ========== DATA ==========
+    const quotes = {
+      motivated: [
+        { text: "El éxito no es la clave de la felicidad. La felicidad es la clave del éxito.", author: "Albert Schweitzer", url: "https://es.wikipedia.org/wiki/Albert_Schweitzer" },
+        { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali", url: "https://es.wikipedia.org/wiki/Muhammad_Ali" },
+        { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs", url: "https://es.wikipedia.org/wiki/Steve_Jobs" },
+        { text: "Tu tiempo es limitado, no lo malgastes viviendo la vida de otro.", author: "Steve Jobs", url: "https://es.wikipedia.org/wiki/Steve_Jobs" },
+        { text: "La motivación nos impulsa a comenzar, el hábito nos permite continuar.", author: "Jim Ryun", url: "https://es.wikipedia.org/wiki/Jim_Ryun" }
+      ],
+      peaceful: [
+        { text: "La paz viene de adentro. No la busques afuera.", author: "Buda", url: "https://es.wikipedia.org/wiki/Buda" },
+        { text: "En medio del movimiento y el caos, mantén la quietud dentro de ti.", author: "Deepak Chopra", url: "https://es.wikipedia.org/wiki/Deepak_Chopra" },
+        { text: "La calma es la virtud de los fuertes.", author: "Proverbio", url: "https://es.wikipedia.org/wiki/Proverbio" },
+        { text: "Respira. Suelta. Recuerda quién eres.", author: "Anónimo", url: "#" },
+        { text: "La serenidad no es escapar de la tormenta, sino encontrar paz dentro de ella.", author: "Anónimo", url: "#" }
+      ],
+      creative: [
+        { text: "La creatividad es la inteligencia divirtiéndose.", author: "Albert Einstein", url: "https://es.wikipedia.org/wiki/Albert_Einstein" },
+        { text: "Todo lo que puedas imaginar es real.", author: "Pablo Picasso", url: "https://es.wikipedia.org/wiki/Pablo_Picasso" },
+        { text: "La creatividad requiere el coraje de soltar las certezas.", author: "Erich Fromm", url: "https://es.wikipedia.org/wiki/Erich_Fromm" },
+        { text: "No tengas miedo de la perfección, nunca la alcanzarás.", author: "Salvador Dalí", url: "https://es.wikipedia.org/wiki/Salvador_Dal%C3%AD" },
+        { text: "El arte es la mentira que nos permite comprender la verdad.", author: "Pablo Picasso", url: "https://es.wikipedia.org/wiki/Pablo_Picasso" }
+      ],
+      reflective: [
+        { text: "Conocerse a sí mismo es el principio de toda sabiduría.", author: "Aristóteles", url: "https://es.wikipedia.org/wiki/Arist%C3%B3teles" },
+        { text: "La vida no examinada no vale la pena ser vivida.", author: "Sócrates", url: "https://es.wikipedia.org/wiki/S%C3%B3crates" },
+        { text: "El que mira afuera, sueña. El que mira adentro, despierta.", author: "Carl Jung", url: "https://es.wikipedia.org/wiki/Carl_Jung" },
+        { text: "No somos lo que pensamos que somos, somos lo que pensamos.", author: "Buda", url: "https://es.wikipedia.org/wiki/Buda" },
+        { text: "En la profundidad del invierno, descubrí que había en mí un verano invencible.", author: "Albert Camus", url: "https://es.wikipedia.org/wiki/Albert_Camus" }
+      ],
+      adventurous: [
+        { text: "La vida es una aventura atrevida o no es nada.", author: "Helen Keller", url: "https://es.wikipedia.org/wiki/Helen_Keller" },
+        { text: "No vayas donde el camino te lleve, ve donde no hay camino y deja huella.", author: "Ralph Waldo Emerson", url: "https://es.wikipedia.org/wiki/Ralph_Waldo_Emerson" },
+        { text: "El mayor riesgo es no tomar ningún riesgo.", author: "Mark Zuckerberg", url: "https://es.wikipedia.org/wiki/Mark_Zuckerberg" },
+        { text: "Vive como si fueras a morir mañana. Aprende como si fueras a vivir para siempre.", author: "Mahatma Gandhi", url: "https://es.wikipedia.org/wiki/Mahatma_Gandhi" },
+        { text: "La aventura puede ser una locura, pero la locura es la mejor manera de vivir.", author: "Anónimo", url: "#" }
+      ],
+      grateful: [
+        { text: "La gratitud convierte lo que tenemos en suficiente.", author: "Melody Beattie", url: "https://en.wikipedia.org/wiki/Melody_Beattie" },
+        { text: "Dar gracias por las pequeñas cosas atrae las grandes.", author: "Anónimo", url: "#" },
+        { text: "La gratitud es la memoria del corazón.", author: "Jean-Baptiste Massieu", url: "https://es.wikipedia.org/wiki/Jean-Baptiste_Massieu" },
+        { text: "Cuando te levantes por la mañana, piensa en el precioso privilegio de estar vivo.", author: "Marco Aurelio", url: "https://es.wikipedia.org/wiki/Marco_Aurelio" },
+        { text: "El secreto de la felicidad no es hacer siempre lo que se quiere, sino querer siempre lo que se hace.", author: "León Tolstói", url: "https://es.wikipedia.org/wiki/Le%C3%B3n_Tolst%C3%B3i" }
+      ]
+    };
+
+    const newsArticles = [
+      {
+        id: "1",
+        title: "OpenAI lanza GPT-5 con capacidades multimodales avanzadas",
+        summary: "La nueva versión promete revolucionar la interacción humano-máquina con comprensión contextual mejorada.",
+        category: "ai",
+        source: "TechCrunch",
+        url: "https://techcrunch.com",
+        date: "Hoy",
+        image: "🤖"
+      },
+      {
+        id: "2",
+        title: "SpaceX completa su misión 100 a la Estación Espacial Internacional",
+        summary: "Un hito histórico para la exploración espacial comercial que marca una nueva era.",
+        category: "space",
+        source: "Space.com",
+        url: "https://space.com",
+        date: "Hoy",
+        image: "🚀"
+      },
+      {
+        id: "3",
+        title: "Cient  ficos descubren nuevo método de almacenamiento de datos en ADN",
+        summary: "Investigadores logran almacenar 1 petabyte en una sola gota, revolucionando el almacenamiento de datos.",
+        category: "science",
+        source: "Nature",
+        url: "https://nature.com",
+        date: "Ayer",
+        image: "🧬"
+      },
+      {
+        id: "4",
+        title: "Apple presenta Vision Pro 2 con resolución retina mejorada",
+        summary: "El nuevo dispositivo de realidad mixta promete una experiencia más inmersiva y ligera.",
+        category: "innovation",
+        source: "The Verge",
+        url: "https://theverge.com",
+        date: "Ayer",
+        image: "👓"
+      },
+      {
+        id: "5",
+        title: "Nueva terapia génica cura ceguera hereditaria en ensayos clínicos",
+        summary: "Pacientes recuperan la visión después de tratamiento innovador basado en CRISPR.",
+        category: "health",
+        source: "MIT Technology Review",
+        url: "https://technologyreview.com",
+        date: "2 días",
+        image: "👁️"
+      },
+      {
+        id: "6",
+        title: "Google DeepMind resuelve problema matemático de 50 años",
+        summary: "La IA AlphaGeometry demuestra teoremas que desafiaron a matemáticos durante décadas.",
+        category: "ai",
+        source: "Wired",
+        url: "https://wired.com",
+        date: "2 días",
+        image: "🧮"
+      },
+      {
+        id: "7",
+        title: "Tesla presenta robot humanoide Optimus Gen 3",
+        summary: "El nuevo androide puede realizar tareas domésticas complejas con precisión humana.",
+        category: "innovation",
+        source: "Reuters",
+        url: "https://reuters.com",
+        date: "3 días",
+        image: "🤖"
+      },
+      {
+        id: "8",
+        title: "Descubren señales de posible vida en luna de Saturno",
+        summary: "La sonda Cassini-Huygens detecta moléculas orgánicas complejas en Encélado.",
+        category: "space",
+        source: "NASA",
+        url: "https://nasa.gov",
+        date: "3 días",
+        image: "🪐"
+      },
+      {
+        id: "9",
+        title: "Baterías de estado sólido alcanzan 1000 km de autonomía",
+        summary: "Toyota y Samsung anuncian avance que transformará los vehículos eléctricos.",
+        category: "innovation",
+        source: "Electrek",
+        url: "https://electrek.co",
+        date: "4 días",
+        image: "🔋"
+      },
+      {
+        id: "10",
+        title: "Implante cerebral permite escribir con el pensamiento",
+        summary: "Neuralink logra que paciente paralizado escriba 90 palabras por minuto solo pensando.",
+        category: "health",
+        source: "Scientific American",
+        url: "https://scientificamerican.com",
+        date: "4 días",
+        image: "🧠"
+      }
+    ];
+
+    // ========== STATE ==========
+    let currentQuote = null;
+    let currentMood = 'motivated';
+    let currentCategory = 'all';
+    let savedItems = [];
+    let quotesViewed = 1;
+    let articlesRead = 0;
+    let config = {};
+
+    const defaultConfig = {
+      site_title: 'Masamihe',
+      welcome_message: 'Tu espacio de reflexión diaria',
+      footer_text: '© 2025 Masamihe - Tu espacio de reflexión y conocimiento',
+      primary_color: '#8b5cf6',
+      secondary_color: '#ec4899',
+      background_color: '#0f172a',
+      text_color: '#e2e8f0',
+      accent_color: '#a855f7'
+    };
+
+    // ========== UTILITIES ==========
+    function showToast(message, icon = '✨') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+      
+      toastMessage.textContent = message;
+      toastIcon.textContent = icon;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    function getRandomQuote(mood) {
+      const moodQuotes = quotes[mood] || quotes.motivated;
+      return moodQuotes[Math.floor(Math.random() * moodQuotes.length)];
+    }
+
+    // ========== RENDER FUNCTIONS ==========
+    function renderQuote() {
+      currentQuote = getRandomQuote(currentMood);
+      const quoteEl = document.getElementById('daily-quote');
+      const authorEl = document.getElementById('quote-author');
+      
+      quoteEl.style.opacity = '0';
+      quoteEl.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        quoteEl.textContent = currentQuote.text;
+        authorEl.innerHTML = `— ${currentQuote.author} <a href="${currentQuote.url}" target="_blank" rel="noopener noreferrer" class="ml-2 text-purple-400 hover:text-purple-300 text-sm">(ver más)</a>`;
+        
+        quoteEl.style.transition = 'all 0.5s ease';
+        quoteEl.style.opacity = '1';
+        quoteEl.style.transform = 'translateY(0)';
+      }, 300);
+    }
+
+    function renderNewsTicker() {
+      const tickerContent = document.getElementById('news-ticker-content');
+      const newsItems = newsArticles.map(article => `
+        <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-6 py-2 mx-2 bg-white/5 hover:bg-white/10 rounded-full transition-all group">
+          <span class="text-2xl">${article.image}</span>
+          <span class="text-white/80 group-hover:text-white">${article.title}</span>
+          <span class="text-purple-400 text-sm">• ${article.source}</span>
+        </a>
+      `).join('');
+      
+      tickerContent.innerHTML = newsItems + newsItems;
+    }
+
+    function renderArticles() {
+      const container = document.getElementById('articles-container');
+      const countEl = document.getElementById('articles-count');
+      
+      const filteredArticles = currentCategory === 'all' 
+        ? newsArticles 
+        : newsArticles.filter(a => a.category === currentCategory);
+      
+      countEl.textContent = `Mostrando ${filteredArticles.length} artículos`;
+      
+      container.innerHTML = filteredArticles.map((article, index) => `
+        <article class="glass-card rounded-2xl p-6 animate-slide-in hover:scale-[1.02] transition-all" style="animation-delay: ${index * 0.1}s">
+          <div class="flex gap-4">
+            <div class="text-5xl">${article.image}</div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full uppercase">${article.category}</span>
+                <span class="text-purple-200/50 text-sm">${article.date}</span>
+              </div>
+              <h3 class="font-display text-xl text-white mb-2 hover:text-purple-300 transition-colors">
+                <a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a>
+              </h3>
+              <p class="text-purple-200/70 mb-4">${article.summary}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-purple-200/50 text-sm">Fuente: ${article.source}</span>
+                <div class="flex gap-2">
+                  <button onclick="saveArticle('${article.id}')" class="save-btn px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-white text-sm transition-all hover:scale-105" data-id="${article.id}">
+                    💾 Guardar
+                  </button>
+                  <a href="${article.url}" target="_blank" rel="noopener noreferrer" onclick="trackArticleRead()" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm hover:scale-105 transition-transform">
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `).join('');
+      
+      updateSaveButtons();
+    }
+
+    function renderSavedItems() {
+      const container = document.getElementById('saved-container');
+      const countEl = document.getElementById('saved-count');
+      const statEl = document.getElementById('items-saved-stat');
+      
+      countEl.textContent = `${savedItems.length} items`;
+      statEl.textContent = savedItems.length.toString();
+      
+      if (savedItems.length === 0) {
+        container.innerHTML = '<p class="text-purple-200/50 text-sm text-center py-4">No tienes items guardados aún</p>';
+        return;
+      }
+      
+      container.innerHTML = savedItems.map(item => `
+        <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl group">
+          <div class="flex-1 min-w-0">
+            <p class="text-white text-sm truncate">${item.content}</p>
+            <p class="text-purple-200/50 text-xs">${item.type === 'article' ? '📰 Artículo' : '💭 Reflexión'}</p>
+          </div>
+          <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            ${item.source_url && item.source_url !== '#' ? `
+              <a href="${item.source_url}" target="_blank" rel="noopener noreferrer" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <svg class="w-4 h-4 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
+            ` : ''}
+            <button onclick="removeSavedItem('${item.id}')" class="p-2 hover:bg-red-500/20 rounded-lg transition-colors">
+              <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateSaveButtons() {
+      document.querySelectorAll('.save-btn').forEach(btn => {
+        const id = btn.dataset.id;
+        const isSaved = savedItems.some(item => item.id === id);
+        if (isSaved) {
+          btn.innerHTML = '✅ Guardado';
+          btn.classList.add('bg-green-500/20');
+        } else {
+          btn.innerHTML = '💾 Guardar';
+          btn.classList.remove('bg-green-500/20');
+        }
+      });
+    }
+
+    function updateStats() {
+      document.getElementById('quotes-viewed').textContent = quotesViewed.toString();
+      document.getElementById('articles-read').textContent = articlesRead.toString();
+    }
+
+    // ========== ACTIONS ==========
+    async function saveArticle(articleId) {
+      if (savedItems.length >= 999) {
+        showToast('Has alcanzado el límite de items guardados', '⚠️');
+        return;
+      }
+      
+      const existingIndex = savedItems.findIndex(item => item.id === articleId);
+      if (existingIndex !== -1) {
+        showToast('Este artículo ya está guardado', 'ℹ️');
+        return;
+      }
+      
+      const article = newsArticles.find(a => a.id === articleId);
+      if (!article) return;
+      
+      const newItem = {
+        id: articleId,
+        type: 'article',
+        content: article.title,
+        source_url: article.url,
+        saved_at: new Date().toISOString(),
+        category: article.category
+      };
+      
+      const result = await window.dataSdk.create(newItem);
+      if (result.isOk) {
+        showToast('Artículo guardado', '💾');
+      } else {
+        showToast('Error al guardar', '❌');
+      }
+    }
+
+    async function saveCurrentQuote() {
+      if (!currentQuote) return;
+      
+      if (savedItems.length >= 999) {
+        showToast('Has alcanzado el límite de items guardados', '⚠️');
+        return;
+      }
+      
+      const quoteId = `quote-${Date.now()}`;
+      const existingQuote = savedItems.find(item => item.content === currentQuote.text);
+      if (existingQuote) {
+        showToast('Esta reflexión ya está guardada', 'ℹ️');
+        return;
+      }
+      
+      const newItem = {
+        id: quoteId,
+        type: 'quote',
+        content: currentQuote.text,
+        source_url: currentQuote.url,
+        saved_at: new Date().toISOString(),
+        category: currentMood
+      };
+      
+      const result = await window.dataSdk.create(newItem);
+      if (result.isOk) {
+        showToast('Reflexión guardada', '✨');
+      } else {
+        showToast('Error al guardar', '❌');
+      }
+    }
+
+    async function removeSavedItem(itemId) {
+      const item = savedItems.find(i => i.id === itemId);
+      if (!item || !item.__backendId) return;
+      
+      const result = await window.dataSdk.delete(item);
+      if (result.isOk) {
+        showToast('Item eliminado', '🗑️');
+      } else {
+        showToast('Error al eliminar', '❌');
+      }
+    }
+
+    function trackArticleRead() {
+      articlesRead++;
+      updateStats();
+    }
+
+    function handleSearch() {
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      if (!query) {
+        currentCategory = 'all';
+        renderArticles();
+        return;
+      }
+      
+      const container = document.getElementById('articles-container');
+      const countEl = document.getElementById('articles-count');
+      
+      const filteredArticles = newsArticles.filter(a => 
+        a.title.toLowerCase().includes(query) || 
+        a.summary.toLowerCase().includes(query) ||
+        a.category.toLowerCase().includes(query)
+      );
+      
+      countEl.textContent = `Resultados para "${query}": ${filteredArticles.length}`;
+      
+      if (filteredArticles.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card rounded-2xl p-8 text-center">
+            <div class="text-6xl mb-4">🔍</div>
+            <p class="text-white text-xl mb-2">No se encontraron resultados</p>
+            <p class="text-purple-200/70">Intenta con otros términos de búsqueda</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = filteredArticles.map((article, index) => `
+        <article class="glass-card rounded-2xl p-6 animate-slide-in hover:scale-[1.02] transition-all" style="animation-delay: ${index * 0.1}s">
+          <div class="flex gap-4">
+            <div class="text-5xl">${article.image}</div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full uppercase">${article.category}</span>
+                <span class="text-purple-200/50 text-sm">${article.date}</span>
+              </div>
+              <h3 class="font-display text-xl text-white mb-2 hover:text-purple-300 transition-colors">
+                <a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a>
+              </h3>
+              <p class="text-purple-200/70 mb-4">${article.summary}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-purple-200/50 text-sm">Fuente: ${article.source}</span>
+                <div class="flex gap-2">
+                  <button onclick="saveArticle('${article.id}')" class="save-btn px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-white text-sm transition-all hover:scale-105" data-id="${article.id}">
+                    💾 Guardar
+                  </button>
+                  <a href="${article.url}" target="_blank" rel="noopener noreferrer" onclick="trackArticleRead()" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white text-sm hover:scale-105 transition-transform">
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `).join('');
+      
+      updateSaveButtons();
+    }
+
+    // ========== EVENT LISTENERS ==========
+    function setupEventListeners() {
+      // New quote button
+      document.getElementById('new-quote-btn').addEventListener('click', () => {
+        renderQuote();
+        quotesViewed++;
+        updateStats();
+      });
+      
+      // Quote click to save
+      document.getElementById('quote-container').addEventListener('dblclick', saveCurrentQuote);
+      
+      // Mood selector
+      document.getElementById('mood-selector').addEventListener('click', (e) => {
+        const btn = e.target.closest('.mood-btn');
+        if (!btn) return;
+        
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('ring-2', 'ring-white'));
+        btn.classList.add('ring-2', 'ring-white');
+        
+        currentMood = btn.dataset.mood;
+        renderQuote();
+        quotesViewed++;
+        updateStats();
+        showToast(`Modo: ${btn.textContent.trim()}`, btn.textContent.split(' ')[0]);
+      });
+      
+      // Category filters
+      document.getElementById('category-filters').addEventListener('click', (e) => {
+        const btn = e.target.closest('.category-btn');
+        if (!btn) return;
+        
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        currentCategory = btn.dataset.category;
+        renderArticles();
+      });
+      
+      // Search
+      document.getElementById('search-btn').addEventListener('click', handleSearch);
+      document.getElementById('search-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSearch();
+        }
+      });
+    }
+
+    // ========== DATA SDK HANDLER ==========
+    const dataHandler = {
+      onDataChanged(data) {
+        savedItems = data;
+        renderSavedItems();
+        updateSaveButtons();
+        updateStats();
+      }
+    };
+
+    // ========== ELEMENT SDK ==========
+    async function onConfigChange(cfg) {
+      config = cfg;
+      
+      const title = cfg.site_title || defaultConfig.site_title;
+      const welcome = cfg.welcome_message || defaultConfig.welcome_message;
+      const footer = cfg.footer_text || defaultConfig.footer_text;
+      
+      document.getElementById('site-title').textContent = title;
+      document.getElementById('welcome-message').textContent = welcome;
+      document.getElementById('footer-text').textContent = footer;
+      document.title = `${title} - Reflexiones Diarias`;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => { cfg.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => { cfg.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => { cfg.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+            set: (value) => { cfg.secondary_color = value; window.elementSdk.setConfig({ secondary_color: value }); }
+          },
+          {
+            get: () => cfg.accent_color || defaultConfig.accent_color,
+            set: (value) => { cfg.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['site_title', cfg.site_title || defaultConfig.site_title],
+        ['welcome_message', cfg.welcome_message || defaultConfig.welcome_message],
+        ['footer_text', cfg.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    // ========== INITIALIZATION ==========
+    async function init() {
+      // Initialize Element SDK
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+        config = window.elementSdk.config || defaultConfig;
+      }
+      
+      // Initialize Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize data SDK');
+        }
+      }
+      
+      // Initial render
+      renderQuote();
+      renderNewsTicker();
+      renderArticles();
+      setupEventListeners();
+      updateStats();
+      
+      // Apply initial config
+      onConfigChange(config);
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c2494d6a77e6b82',t:'MTc2OTE0Mjg5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
